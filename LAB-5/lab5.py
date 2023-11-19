@@ -41,12 +41,6 @@ for i in range(epoch):
     wout += hlayer_act.T.dot(d_output) * lr
     wh += x.T.dot(d_hiddenlayer) * lr
     
-    print("--Epoch-",i+1,"--Starts--")
-    print("Input :\n"+str(x))
-    print("Actual Output : \n"+str(y))
-    print("Predicted Output : \n", output)
-    print("--Epoch-",i+1,"--Ends--")
-    
 print("Input :\n"+str(x))
 print("Actual Output : \n"+str(y))
 print("Predicted Output : \n", output)
