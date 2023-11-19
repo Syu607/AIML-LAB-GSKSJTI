@@ -44,7 +44,7 @@ def buildTree(df, tree=None):
         tree[node][value] = clValue[0] if len(counts) == 1 else buildTree(subtable)
     return tree
 
-df = pd.read_csv("/Users/darshanr/Documents/18CSL76-Artificial-Intelligence-And-Machine-Learning-LAB/LAB-4/tennis.csv")
+df = pd.read_csv("tennis.csv")
 print("\nGiven Play Tennis Data Set:\n\n", df)
 tree = buildTree(df)
 pprint.pprint(tree)
