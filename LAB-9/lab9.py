@@ -21,7 +21,7 @@ def localWeightRegression(xmat, ymat, k):
         ypred[i] = xmat[i]*localWeight(xmat[i],xmat,ymat,k)
     return ypred
        
-data = pd.read_csv('/Users/darshanr/Documents/18CSL76-Artificial-Intelligence-And-Machine-Learning-LAB/LAB-9/tips.csv')
+data = pd.read_csv('tips.csv')
 bill = np.array(data.total_bill)
 tip = np.array(data.tip)
  
