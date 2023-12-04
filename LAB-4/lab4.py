@@ -45,21 +45,5 @@ def buildTree(df, tree=None):
     return tree
 
 df = pd.read_csv("tennis.csv")
-print("\nGiven Play Tennis Data Set:\n\n", df)
 tree = buildTree(df)
 pprint.pprint(tree)
-
-test = {"Outlook": "Sunny", "Temperature": "Hot", "Humidity": "High", "Wind": "Weak"}
-
-def func(test, tree, default=None):
-    attribute = next(iter(tree))
-    print(attribute)
-    if test[attribute] not in tree[attribute].keys():
-        return default
-    print(tree[attribute].keys())
-    print(test[attribute])
-    result = tree[attribute][test[attribute]]
-    return func(test, result) if isinstance(result, dict) else result
-
-ans = func(test, tree)
-print(ans)
