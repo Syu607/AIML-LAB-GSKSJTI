@@ -1,47 +1,29 @@
 import numpy as np
 
-x = np.array(([2,9],[1,5],[3,6]),dtype=float)
-y = np.array(([92],[86],[89]),dtype=float)
+x = np.array(([2,9], [1,5], [3,6]), dtype=float)
+y = np.array(([94], [85], [67]), dtype=float)
 
-x = x/np.amax(x, axis=0)
-y = y/100
+x = x / np.amax(x, axis=0)
+y = y / 100
+
+epochs, lr, i, h, o = 7000, 0.1, 2, 3, 1
+wh, bh = np.random.uniform(size=(i, h)), np.random.uniform(size=(1, h))
+wo, bo = np.random.uniform(size=(h, o)), np.random.uniform(size=(1, o))
 
 def sigmoid(x):
-    return 1/(1+np.exp(-x))
+    return 1 / (1 + np.exp(-x))
 
-def derivatives_sigmoid(x):
-    return x*(1-x)
+def dersig(x):
+    return x * (1-x)
 
-epoch = 5
-lr = 0.1
+for i in range(epochs):
+    hl = sigmoid(np.dot(x, wh) + bh)        #Hidden layer
+    ol = sigmoid(np.dot(hl, wo) + bo)       #Output layer
+    derOl = (y-ol) * dersig(ol)             #Derivative of output layer
+    derHl = derOl.dot(wo.T) * dersig(hl)    #Derivative of hidden layer
+    wo += hl.T.dot(derOl) * lr              #Weight adjustment of output layer
+    wh += x.T.dot(derHl) * lr               #Weight adjustment of hidden layer
 
-inputlayer_neurons = 2
-hiddenlayer_neurons = 3
-outputlayer_neurons = 1
-
-wh = np.random.uniform(size=(inputlayer_neurons, hiddenlayer_neurons))
-bh = np.random.uniform(size=(1, hiddenlayer_neurons))
-wout = np.random.uniform(size=(hiddenlayer_neurons, outputlayer_neurons))
-bout = np.random.uniform(size=(1, outputlayer_neurons))
-
-for i in range(epoch):
-    hinp1 = np.dot(x, wh)
-    hinp = hinp1 + bh
-    hlayer_act = sigmoid(hinp)
-    outinp1 = np.dot(hlayer_act, wout)
-    outinp = outinp1 + bout
-    output = sigmoid(outinp)
-    
-    EO = y - output
-    outgrad = derivatives_sigmoid(output)
-    d_output = EO * outgrad
-    EH = d_output.dot(wout.T)
-    hiddengrad = derivatives_sigmoid(hlayer_act)
-    d_hiddenlayer = EH * hiddengrad
-    wout += hlayer_act.T.dot(d_output) * lr
-    wh += x.T.dot(d_hiddenlayer) * lr
-    
 print("Input :\n"+str(x))
 print("Actual Output : \n"+str(y))
-print("Predicted Output : \n", output)
-    
+print("Predicted Output : \n", ol)
