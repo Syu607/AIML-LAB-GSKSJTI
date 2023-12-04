@@ -1,31 +1,30 @@
 import csv
-file = open('data.csv')
-data = list(csv.reader(file))[:]
-concepts = []
-target = []
+with open("data.csv") as f:
+    csv_file = csv.reader(f)
+    data = list(csv_file)
 
-for i in data:
-    concepts.append(i[:-1])
-    target.append(i[-1])
+    s = data[1][:-1]
+    g = [['?' for i in range(len(s))] for j in range(len(s))]
 
-specific_h = ['O']*len(concepts[0])
-general_h = [['?' for _ in range(len(specific_h))] for _ in range(len(specific_h))]
+    for i in data:
+        if i[-1] == "Yes":
+            for j in range(len(s)):
+                if i[j] != s[j]:
+                    s[j] = '?'
+                    g[j][j] = '?'
 
-for i, instance in enumerate(concepts):
-    if target[i] == "Yes":
-        for x in range(len(specific_h)):
-            if specific_h[x] == 'O':
-                specific_h[x] = instance[x]
-            elif instance[x] != specific_h[x]:
-                specific_h[x] = '?'
-                general_h[x][x] = '?'
-    if target[i] == "No":
-        for x in range(len(specific_h)):
-            general_h[x][x] = specific_h[x] if instance[x] != specific_h[x] else '?'
-indices = [i for i, val in enumerate(general_h) if val == ['?', '?', '?', '?', '?', '?']]
+        elif i[-1] == "No":
+            for j in range(len(s)):
+                if i[j] != s[j]:
+                    g[j][j] = s[j]
+                else:
+                    g[j][j] = "?"
+    gh = []
+    for i in g:
+        for j in i:
+            if j != '?':
+                gh.append(i)
+                break
+    print("\nFinal specific hypothesis:\n", s)
 
-for _ in indices:
-    general_h.remove(['?', '?', '?', '?', '?', '?'])
-
-print("Final Specific : ", specific_h, sep = '\n')
-print("Final General : ", general_h, sep = '\n')
+    print("\nFinal general hypothesis:\n", gh)   
