@@ -5,10 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import matplotlib.pyplot as plt
 
-dataset = pd.read_csv("iris2.csv", names=['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class'])
+dataset = pd.read_csv("iris.csv")
 X = dataset.iloc[:, :-1]  
 y = dataset.iloc[:, -1]
-print(X.head())
 
 Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.10) 
 
@@ -17,7 +16,7 @@ classifier = KNeighborsClassifier(n_neighbors=5).fit(Xtrain, ytrain)
 ypred = classifier.predict(Xtest)
 
 i = 0
-print ("\n-------------------------------------------------------------------------")
+print ("-------------------------------------------------------------------------")
 print ('%-25s %-25s %-25s' % ('Original Label', 'Predicted Label', 'Correct/Wrong'))
 print ("-------------------------------------------------------------------------")
 for label in ytest:
