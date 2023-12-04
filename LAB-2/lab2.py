@@ -51,16 +51,11 @@ class Graph:
         return minimumCost, costToChildNodeListDict[minimumCost]
 
     def aoStar(self, v, backTracking): 
-        print("HEURISTIC VALUES :", self.H)
-        print("SOLUTION GRAPH :", self.solutionGraph)
-        print("PROCESSING NODE :", v)
-        print("-----------------------------------------------------------------------------------------")
         if self.getStatus(v) >= 0: 
             self.check(v, backTracking)
 
     def check(self, v, backTracking):
         minimumCost, childNodeList = self.computeMinimumCostChildNodes(v)
-        print(minimumCost, childNodeList)
         self.setHeuristicNodeValue(v, minimumCost)
         self.setStatus(v,len(childNodeList))
         solved=True
@@ -78,7 +73,6 @@ class Graph:
                 self.setStatus(childNode,0) 
                 self.aoStar(childNode, False)
                     
-print ("Graph")
 
 h1 = {'A': 1, 'B': 6, 'C': 2, 'D': 12, 'E': 2, 'F': 1, 'G': 5, 'H': 7, 'I': 7, 'J': 1}
 
@@ -93,3 +87,7 @@ graph = {
 G1= Graph(graph, h1, 'A')
 G1.applyAOStar()
 G1.printSolution()
+#FOR GRAPH SOLUTION, TRAVERSE THE GRAPH FROM THE START NODE: A
+#------------------------------------------------------------
+#{'I': [], 'G': ['I'], 'B': ['G'], 'J': [], 'C': ['J'], 'A': ['B', 'C']}
+#------------------------------------------------------------
